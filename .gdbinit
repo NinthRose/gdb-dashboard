@@ -308,6 +308,7 @@ def format_value(value, compact=None):
                 value = value.dereference()
             except gdb.error as e:
                 break
+            break
         else:
             formatted = to_string(value)
             out += '{} {}'.format(ansi(':', R.style_low), formatted)
@@ -372,7 +373,7 @@ def fetch_breakpoints(watchpoints=False, pending=False):
         breakpoint['location'] = gdb_breakpoint.location
         breakpoint['expression'] = gdb_breakpoint.expression
         breakpoint['condition'] = gdb_breakpoint.condition
-        breakpoint['temporary'] = gdb_breakpoint.temporary
+        # breakpoint['temporary'] = gdb_breakpoint.temporary
         breakpoint['hit_count'] = gdb_breakpoint.hit_count
         breakpoint['pending'] = is_pending
         # add addresses and source information
@@ -1840,12 +1841,12 @@ class Memory(Dashboard.Module):
                 'doc': '''Watch a memory region by expression and length.
 
 The length defaults to 16 bytes.''',
-                'complete': gdb.COMPLETE_EXPRESSION
+                # 'complete': gdb.COMPLETE_EXPRESSION
             },
             'unwatch': {
                 'action': self.unwatch,
                 'doc': 'Stop watching a memory region by expression.',
-                'complete': gdb.COMPLETE_EXPRESSION
+                # 'complete': gdb.COMPLETE_EXPRESSION
             },
             'clear': {
                 'action': self.clear,
@@ -2134,12 +2135,12 @@ class Expressions(Dashboard.Module):
             'watch': {
                 'action': self.watch,
                 'doc': 'Watch an expression using the format `[/<radix>] <expression>`.',
-                'complete': gdb.COMPLETE_EXPRESSION
+                # 'complete': gdb.COMPLETE_EXPRESSION
             },
             'unwatch': {
                 'action': self.unwatch,
                 'doc': 'Stop watching an expression.',
-                'complete': gdb.COMPLETE_EXPRESSION
+                # 'complete': gdb.COMPLETE_EXPRESSION
             },
             'clear': {
                 'action': self.clear,
@@ -2207,8 +2208,8 @@ class Breakpoints(Dashboard.Module):
             style = R.style_selected_1 if breakpoint['enabled'] else R.style_selected_2
             number = ansi(breakpoint['number'], style)
             bp_type = ansi(Breakpoints.NAMES[breakpoint['type']], style)
-            if breakpoint['temporary']:
-                bp_type = bp_type + ' {}'.format(ansi('once', style))
+            # if breakpoint['temporary']:
+            #     bp_type = bp_type + ' {}'.format(ansi('once', style))
             if not R.ansi and breakpoint['enabled']:
                 bp_type = 'disabled ' + bp_type
             line = '[{}] {}'.format(number, bp_type)
