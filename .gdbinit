@@ -1200,6 +1200,7 @@ class Source(Dashboard.Module):
                 return [ansi(msg, R.style_error)]
         # compute the line range
         height = self.height or (term_height - 1)
+        height += 20
         start = current_line - 1 - int(height / 2) + self.offset
         end = start + height
         # extra at start
